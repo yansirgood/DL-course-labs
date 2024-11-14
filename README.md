@@ -4,5 +4,5 @@
 
 小组选择任务 1, 3
 
-- `/ANN`: 完成基于logistic/softmax regression的分类模型
+- `/ANN`: 基于神经网络的分类
 - `/Self-Attention`: 基于自注意力机制的情感分析模型
