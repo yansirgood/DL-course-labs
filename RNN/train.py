@@ -2,9 +2,16 @@ import torch
 from dataset import NameDataset,phrase2list,make_tensors
 from RNN import RNNClassifier
 from torch.utils.data import Dataset, DataLoader
-from config import device,NUM_CHARS,HIDDEN_SIZE,NUM_LAYERS,NUM_EPOCHS,BATCH_SIZE,train_set,train_loader,NUM_CLASS,patience,val_loader,val_set,droup_out
+from config import train_set,train_loader,NUM_CLASS,patience,val_loader,val_set
+import matplotlib.pyplot as plt
 
-
+device = torch.device('cuda:0')
+NUM_CHARS = 128
+HIDDEN_SIZE = 128
+NUM_LAYERS = 2
+NUM_EPOCHS = 15
+BATCH_SIZE = 512
+droup_out =0.5
 def train_and_validate(model, criterion, optimizer, train_loader, val_loader, device):
     model.train()
     total_loss = 0
@@ -29,8 +36,6 @@ def train_and_validate(model, criterion, optimizer, train_loader, val_loader, de
             val_loss += loss.item()
     return total_loss / len(train_loader), val_loss / len(val_loader)
 
-def return_loss_list():
-    return loss_list
 def return_classifier():
     classifier = torch.load('sentimentAnalyst.pkl')
     classifier.to(device)
@@ -53,6 +58,11 @@ if __name__ == '__main__':
             if patience_counter >=patience:
                 print('早退')
                 break
-            return_loss_list()
     return_classifier()
+    epoch = [epoch + 1 for epoch in range(len(loss_list))]
+    plt.plot(epoch, loss_list)
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.grid()
+    plt.show()
 

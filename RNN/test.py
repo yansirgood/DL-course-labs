@@ -1,16 +1,15 @@
 import math
 from itertools import chain
-import matplotlib.pyplot as plt
 import pandas as pd
 import torch
-from train import return_loss_list,return_classifier
+from train import return_classifier
 from dataset import NameDataset,phrase2list,make_tensors1
 from config import device,NUM_CHARS,HIDDEN_SIZE,NUM_LAYERS,NUM_EPOCHS,BATCH_SIZE,train_set,train_loader,NUM_CLASS,val_loader,val_set
 
 
 
 def get_test_set():
-    test_set = pd.read_csv(r'E:\senmtiment-analysis\test.tsv\test.tsv', sep='\t')
+    test_set = pd.read_csv(r'data/test.tsv', sep='\t')
     PhraseId = test_set['PhraseId']
     test_Phrase = test_set['Phrase']
     return PhraseId, test_Phrase
@@ -36,14 +35,6 @@ def testModel():
     result.to_csv('SA_predict.csv', index=False)
 
 if __name__ == '__main__':
-    loss_list=return_loss_list()
     testModel()
-    epoch = [epoch + 1 for epoch in range(len(loss_list))]
-    plt.plot(epoch, loss_list)
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.grid()
-    plt.show()
-
 
 

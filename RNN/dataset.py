@@ -1,8 +1,7 @@
 import pandas as pd
 from torch.utils.data import Dataset, DataLoader
 import torch
-
-device = torch.device('cuda:0')
+from train import device
 class NameDataset(Dataset):
     def __init__(self, file_path, train=True, val=False):
         self.data = pd.read_csv(file_path, sep='\t')
